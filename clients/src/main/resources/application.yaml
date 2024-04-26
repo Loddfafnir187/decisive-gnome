@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: clients
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+api:
+  storage: http://localhost:8081/storage
+  cart: http://localhost:8082/carts
+  order: http://localhost:8083/orders

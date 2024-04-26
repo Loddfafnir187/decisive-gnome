@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+</head>
+<body>
+
+<div style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+    <a th:text="${client.getUsername()}" style="font-weight: bold;"></a>
+    <br>
+    <div th:if="${#authorization.expression('isAuthenticated()')}" style="margin-top: 10px;">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" style="background-color: #ff6347; color: white; border: none; padding: 5px 10px; border-radius: 3px;">Logout</button>
+        </form>
+    </div>
+    <div th:unless="${#authorization.expression('isAuthenticated()')}" style="margin-top: 10px;">
+        <form th:action="@{/login}" method="post">
+            <button type="submit" style="background-color: #4682b4; color: white; border: none; padding: 5px 10px; border-radius: 3px;">Login</button>
+        </form>
+    </div>
+
+    <form th:action="@{/cart}" method="get" style="margin-top: 10px;">
+        <button type="submit" style="background-color: #32cd32; color: white; border: none; padding: 5px 10px; border-radius: 3px;">Cart</button>
+    </form>
+
+    <div th:if="${#authorization.expression('isAuthenticated() and hasRole(''ADMIN'')')}" style="margin-top: 10px;">
+        <!-- Блок HTML, который отобразится, если пользователь аутентифицирован и имеет роль "ADMIN" -->
+        <br>
+        <p style="color: #808080;">User is authenticated as admin</p>
+        <form th:action="@{/admin/orders}" method="get">
+            <button type="submit" style="background-color: #808080; color: white; border: none; padding: 5px 10px; border-radius: 3px;">Orders</button>
+        </form>
+        <br>
+
+    </div>
+    <br>
+</div>
+
+<div th:switch="${products}">
+    <h2 th:case="null">No product found!</h2>
+    <div th:case="*">
+        <h2>Products</h2>
+
+
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th, td {
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            th {
+                background-color: #4CAF50;
+                color: white;
+            }
+        </style>
+        <table>
+            <thead>
+            <tr>
+                <th><a>Id</a></th>
+                <th><a>Name</a></th>
+                <th><a>Category</a></th>
+                <th><a>Price</a></th>
+                <th><a>Quantity</a></th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="prod : ${products}">
+                <td th:text="${prod.getId()}"></td>
+                <td><a th:href="@{/product/{id}(id=${prod.getId()})}" th:text="${prod.getName()}"></a></td>
+                <td th:text="${prod.getCategory()}"></td>
+                <td th:text="${prod.getPrice()}"></td>
+                <td th:text="${prod.getQuantity()}"></td>
+                <td>
+                    <form th:action="@{pick/{id}(id=${prod.getId()})}" method="post">
+                        <button type="submit">В корзину</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+    </div>
+    <br>
+</div>
+
+<div>
+    <form th:action="@{/ch/1}" method="post">
+        <button type="submit">пользователь 1</button>
+    </form>
+    <form th:action="@{/ch/2}" method="post">
+        <button type="submit">пользователь 2</button>
+    </form>
+    <form th:action="@{/ch/3}" method="post">
+        <button type="submit">пользователь 3</button>
+    </form>
+</div>
+</body>
+</html>
