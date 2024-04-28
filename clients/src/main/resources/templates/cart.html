@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Products</title>
+  <title>Product cart</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -67,7 +67,8 @@
 </head>
 <body>
 <div class="container">
-  <h1>Products</h1>
+  <h1>Product cart</h1>
+  <h2>Products</h2>
   <table>
     <tbody>
     <tr th:each="prod : ${products}">
